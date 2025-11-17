@@ -17,6 +17,16 @@ public class Main {
 			System.out.printf("[Savings %s] Solde: %.2f%n",a1.getAccountNumber(), a1.getBalance());
 			System.out.printf("[Credit %s] Solde %.2f%n",a2.getAccountNumber(),a2.getBalance());
 			
+            System.out.println("\nHistorique du SavingsAccount :");
+            for (var t : a1.transactions) {  
+                System.out.println(t);
+            }
+            
+            System.out.println("\nHistorique du SavingsAccount :");
+            for (var t : a2.transactions) {  
+                System.out.println(t);
+            }//simplifie ce for
+			
 		} catch (BusinessRuleViolation e) {
 			System.out.println("Erreur : " + e.getMessage());
 		}

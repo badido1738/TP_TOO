@@ -1,5 +1,11 @@
 package bank;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import bank.tx.Transaction;
+import bank.tx.TransactionType;
+
 public class CreditAccount extends Account {
 	private final double creditLimit;
 	
@@ -18,6 +24,8 @@ public class CreditAccount extends Account {
 		}
 		
 		balance -= amount;
+		transactions.add(new Transaction(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),TransactionType.WITHDRAW,amount,balance));
+
 	}
 
 }
