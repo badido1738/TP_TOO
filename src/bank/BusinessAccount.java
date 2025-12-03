@@ -6,13 +6,15 @@ import java.time.format.DateTimeFormatter;
 import bank.tx.Transaction;
 import bank.tx.TransactionType;
 
-public final class SavingsAccount extends Account {
+public final class BusinessAccount extends Account {
 
     private final double interestRate;
+    private final double creditLimit;
 
-    public SavingsAccount(String id, double initial, double interestRate) {
+    public BusinessAccount(String id, double initial, double interestRate, double creditLimit) {
         super(id, initial);
         this.interestRate = interestRate;
+        this.creditLimit = creditLimit;
     }
 
     public void applyInterest() {
@@ -29,11 +31,29 @@ public final class SavingsAccount extends Account {
         if(amount <= 0) {
             throw new BusinessRuleViolation("Amount has to be > 0");
         }
-        if(balance - amount < 0) {
-            throw new BusinessRuleViolation("Your balance is not enough");
+        if(balance - amount < -creditLimit) {
+            throw new BusinessRuleViolation("Withdrawal exceeds credit limit");
         }
         balance -= amount;
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         transactions.add(new Transaction(now, TransactionType.WITHDRAW, amount, balance));
+    }
+
+    @Override
+    public void deposit(double amount) {
+        if(amount <= 0) {
+            throw new BusinessRuleViolation("Amount has to be > 0");
+        }
+        balance += amount;
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        transactions.add(new Transaction(now, TransactionType.DEPOSIT, amount, balance));
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public double getCreditLimit() {
+        return creditLimit;
     }
 }
