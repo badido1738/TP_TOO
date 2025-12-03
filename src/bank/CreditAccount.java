@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import bank.tx.Transaction;
 import bank.tx.TransactionType;
 
-public final class CreditAccount extends Account {
+public class CreditAccount extends Account {
 
     private final double creditLimit;
 
