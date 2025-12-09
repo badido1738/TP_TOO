@@ -25,15 +25,14 @@ public final class SavingsAccount extends Account {
     }
 
     @Override
-    public void withdraw(double amount) {
-        if(amount <= 0) {
-            throw new BusinessRuleViolation("Amount has to be > 0");
-        }
-        if(balance - amount < 0) {
+    protected void checkSpecificRules(double totalAmount) {
+        if(balance - totalAmount < 0) {
             throw new BusinessRuleViolation("Your balance is not enough");
         }
-        balance -= amount;
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-        transactions.add(new Transaction(now, TransactionType.WITHDRAW, amount, balance));
+    }
+
+    @Override
+    protected void applyWithdraw(double totalAmount) {
+        balance -= totalAmount;
     }
 }

@@ -1,55 +1,30 @@
 package bank.tx;
 
-import java.time.LocalDateTime;
-
 public class Transaction {
-	private final String date;
-	private final TransactionType type;
-	private final double montant;
-	private final double soldeApres;
-	
+    private final String date;
+    private final TransactionType type;
+    private final double amount; // Le champ 'amount' doit exister
+    private final double newBalance;
 
-	
+    public Transaction(String date, TransactionType type, double amount, double newBalance) {
+        this.date = date;
+        this.type = type;
+        this.amount = amount;
+        this.newBalance = newBalance;
+    }
 
-	public Transaction(String string, TransactionType type, double montant, double soldeApres) {
-		super();
-		this.date = string;
-		this.type = type;
-		this.montant = montant;
-		this.soldeApres = soldeApres;
-	}
+    public TransactionType getType() {
+        return type;
+    }
 
-	
+    /** Méthode manquante ou mal nommée */
+    public double getAmount() { // <--- AJOUTEZ OU VÉRIFIEZ CELA
+        return amount;
+    }
 
-	public String getDate() {
-		return date;
-	}
-
-
-
-	public TransactionType getType() {
-		return type;
-	}
-
-
-
-	public double getMontant() {
-		return montant;
-	}
-
-
-
-	public double getSoldeApres() {
-		return soldeApres;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "Transaction [date=" + date + ", type=" + type + ", montant=" + montant + ", soldeApres=" + soldeApres
-				+ "]";
-	}
-
-
+    // Le reste des méthodes...
+    @Override
+    public String toString() {
+        return String.format("[%s] %s: %.2f EUR (Solde: %.2f)", date, type, amount, newBalance);
+    }
 }

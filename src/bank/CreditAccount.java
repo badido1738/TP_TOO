@@ -16,18 +16,17 @@ public class CreditAccount extends Account {
     }
 
     @Override
-    public void withdraw(double amount) {
-        if(amount <= 0) {
-            throw new BusinessRuleViolation("Amount has to be > 0");
-        }
-        if(balance - amount < -creditLimit) {
+    protected void checkSpecificRules(double totalAmount) {
+        if(balance - totalAmount < -creditLimit) {
             throw new BusinessRuleViolation("Withdrawal exceeds credit limit");
         }
-        balance -= amount;
-        String now = LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-        transactions.add(new Transaction(now, TransactionType.WITHDRAW, amount, balance));
     }
 
+    @Override
+    protected void applyWithdraw(double totalAmount) {
+        balance -= totalAmount;
+    }
+    
     public double getCreditLimit() {
         return creditLimit;
     }
