@@ -15,7 +15,6 @@ public class AuditService implements AccountObserver {
             tx.getAmount(), 
             acc.getBalance()
         );
-        // Simulation de l'enregistrement dans un fichier d'audit indépendant
         System.out.println(">>> " + logMessage);
     }
 }

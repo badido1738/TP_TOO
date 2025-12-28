@@ -10,23 +10,16 @@ import bank.domain.service.AccountObserver;
 import bank.domain.service.FeePolicy;
 import bank.domain.service.NoFeePolicy;
 
-/**
- * Classe abstraite représentant un compte bancaire.
- * Fait partie du Domaine Métier (Domain Model).
- * Ne dépend d'aucun outil technique (pas de Logger, pas de java.io).
- */
+
 public abstract class Account {
 
     protected final String accountNumber;
     protected double balance;
     
-    // Historique des transactions
     public final List<Transaction> transactions = new ArrayList<>();
     
-    // Stratégie de frais (Strategy Pattern)
     private FeePolicy feePolicy;
     
-    // Liste des observateurs pour l'audit (Observer Pattern)
     private final List<AccountObserver> observers = new ArrayList<>();
 
     protected Account(String accountNumber, double initial) {
@@ -36,9 +29,6 @@ public abstract class Account {
         this.feePolicy = new NoFeePolicy();
     }
 
-    /**
-     * Effectue un dépôt sur le compte.
-     */
     public void deposit(double amount) {
         if (amount <= 0) {
             throw new BusinessRuleViolation("Amount has to be > 0");
@@ -52,26 +42,19 @@ public abstract class Account {
         notifyObservers(tx); // Notifie l'AuditService
     }
 
-    /**
-     * Méthode modèle (Template Method) pour le retrait.
-     * Gère l'orchestration : vérification -> règles spécifiques -> application -> frais.
-     */
+
     public final void withdraw(double amount) {
         
         double totalAmount = calculateTotalWithdrawalAmount(amount);
 
-        // 1. Vérifications (Validation)
         checkAmount(amount);
         checkSpecificRules(totalAmount); 
         
-        // 2. Application du retrait (Modification d'état)
         applyWithdraw(totalAmount);      
         
-        // 3. Enregistrement transaction principale
         Transaction lastWithdrawalTx = recordWithdrawalTransaction(amount); 
         notifyObservers(lastWithdrawalTx); // L'audit se fait ici via l'observer
         
-        // 4. Application et enregistrement des frais éventuels
         Transaction lastFeeTx = applyFee(amount); 
         if (lastFeeTx != null) {
             notifyObservers(lastFeeTx); 
@@ -106,21 +89,16 @@ public abstract class Account {
         return null;
     }
     
-    /**
-     * Méthode technique utilisée UNIQUEMENT par la couche de persistance
-     * pour recharger l'historique depuis un fichier sans impacter le solde.
-     */
+
     public void restoreTransaction(Transaction tx) {
         this.transactions.add(tx);
     }
 
-    // --- Méthodes abstraites (Template Steps) ---
 
     protected abstract void checkSpecificRules(double totalAmount);
 
     protected abstract void applyWithdraw(double totalAmount);
 
-    // --- Getters & Setters ---
 
     public final String getAccountNumber() {
         return accountNumber;
@@ -138,7 +116,6 @@ public abstract class Account {
         this.feePolicy = feePolicy;
     }
     
-    // --- Gestion des Observateurs ---
     
     public void addObserver(AccountObserver obs) {
         observers.add(obs);

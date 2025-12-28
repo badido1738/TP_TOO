@@ -17,12 +17,10 @@ public class Transaction {
         return type;
     }
 
-    /** Méthode manquante ou mal nommée */
-    public double getAmount() { // <--- AJOUTEZ OU VÉRIFIEZ CELA
+    public double getAmount() { 
         return amount;
     }
 
-    // Le reste des méthodes...
     @Override
     public String toString() {
         return String.format("[%s] %s: %.2f EUR (Solde: %.2f)", date, type, amount, newBalance);

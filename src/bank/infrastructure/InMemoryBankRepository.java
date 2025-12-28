@@ -4,12 +4,7 @@ import bank.domain.exceptions.PersistenceException;
 import bank.domain.model.Bank;
 import bank.domain.service.BankRepository;
 
-/**
- * Implémentation "Bouchon" (Stub/Mock) du repository.
- * Stocke les données en mémoire vive.
- * Les données sont perdues à l'arrêt du programme.
- * Idéal pour les tests unitaires.
- */
+
 public class InMemoryBankRepository implements BankRepository {
 
     // Simule le "Fichier" ou la "Base de données"
@@ -17,8 +12,7 @@ public class InMemoryBankRepository implements BankRepository {
 
     @Override
     public void save(Bank bank) {
-        // En mémoire, on stocke simplement la référence
-        // (Dans un cas réel complexe, on ferait une copie profonde pour éviter les effets de bord)
+
         this.storedBank = bank;
     }
 

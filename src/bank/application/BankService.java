@@ -23,7 +23,7 @@ public class BankService {
 
     public void transfer(String fromId, String toId, double amount) {
         bank.transfer(fromId, toId, amount);
-        save(); // Sauvegarde auto
+        save(); 
     }
 
     public void save() {
@@ -32,7 +32,7 @@ public class BankService {
     
     public Bank getBank() { return bank; }
     
-    // Helper pour ajouter l'audit
+    // pour ajouter l'audit
     public void addObserver(String accountId, AccountObserver observer) {
         Account acc = bank.getAccounts().get(accountId);
         if(acc != null) acc.addObserver(observer);

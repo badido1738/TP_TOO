@@ -56,11 +56,10 @@ class BankSystemTest {
         assertEquals(100.0, dest.getBalance(), 0.001, "Le compte destination doit être crédité");
     }
 
-    // --- CAS 2 : Atomicité (Rollback) ---
+    // --- CAS 2 : Atomicité 
     @Test
     void testTransferAtomicityOnFailure() {
-        // On essaie de virer plus que le solde disponible (1000.0) sur un compte épargne
-        // Cela doit lever une exception métier
+
         assertThrows(TransferException.class, () -> {
             service.transfer("SRC", "DST", 2000.0);
         });
@@ -76,8 +75,6 @@ class BankSystemTest {
         // On applique une politique de frais fixes de 5€ au compte source
         source.setFeePolicy(new FixedFeePolicy(5.0));
         
-        // On retire 100€ via le service (ou directement sur le compte)
-        // Note: BankService.transfer utilise withdraw(), donc les frais s'appliquent aussi
         source.withdraw(100.0);
 
         // Solde attendu : 1000 - 100 (retrait) - 5 (frais) = 895
