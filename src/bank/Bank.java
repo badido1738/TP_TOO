@@ -57,4 +57,7 @@ public class Bank {
             throw new TransferException("Echec du transfert", e);
         }
     }
+    public Map<String, Account> getAccounts() {
+        return accounts;
+    }
 }

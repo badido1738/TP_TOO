@@ -117,4 +117,8 @@ public abstract class Account {
             obs.onTransaction(this, tx);
         }
     }
+    
+    public void restoreTransaction(Transaction tx) {
+        this.transactions.add(tx);
+    }
 }

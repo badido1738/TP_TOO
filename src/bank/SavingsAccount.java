@@ -35,4 +35,8 @@ public final class SavingsAccount extends Account {
     protected void applyWithdraw(double totalAmount) {
         balance -= totalAmount;
     }
+    
+    public double getInterestRate() {
+        return interestRate;
+    }
 }

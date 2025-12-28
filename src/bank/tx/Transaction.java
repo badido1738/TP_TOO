@@ -27,4 +27,12 @@ public class Transaction {
     public String toString() {
         return String.format("[%s] %s: %.2f EUR (Solde: %.2f)", date, type, amount, newBalance);
     }
+    
+    public String getDate() {
+        return date;
+    }
+
+    public double getNewBalance() {
+        return newBalance;
+    }
 }
